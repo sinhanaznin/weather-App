@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>weather condition</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="text-Box" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="search-button" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="icon" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="address">Dhaka</h1>
+            <h1><span id="temp">38.6</span>&deg;C</h1>
+            <h4 class="py-2" id="feelsLike-temp"></h4>
+            <h1 id="weather" class="lead">Cloud</h1>
+        </div>
+    </div>
+<script>
+    var button = document.getElementById('search-button');
+    button.addEventListener('click',function(){
+        
+    
+        var textBox = document.getElementById('text-Box').value;
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${textBox}&units=metric&appid=9f14717ee45935849723e97827892ffd`)
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data);
+            document.getElementById('address').innerText = textBox;
+            document.getElementById('temp').innerText = Math.ceil(data.main.temp);
+            document.getElementById('weather').innerText = data.weather[0].main;
+            document.getElementById('icon').setAttribute('src', `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+            document.getElementById("feelsLike-temp").innerText = `Feels Like ${data.main.feels_like} \xB0C`;
+
+        })
+    })
+
+</script>
+</body>
+
+</html>
